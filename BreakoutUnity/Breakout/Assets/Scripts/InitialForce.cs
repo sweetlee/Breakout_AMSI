@@ -16,7 +16,7 @@ public class InitialForce : MonoBehaviour {
 
         if (this.randomStart)
         {
-            force = new Vector2(Random.Range(-10f, 10f), Random.Range(-1f, 1f)).normalized * this.forceValue;
+            force = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 0f)).normalized * this.forceValue;
         } else
         {
             force = this.direction.normalized * this.forceValue;
