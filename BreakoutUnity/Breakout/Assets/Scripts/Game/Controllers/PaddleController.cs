@@ -16,6 +16,4 @@ public class PaddleController : MonoBehaviour {
 		Vector3 playerPos = new Vector3 (Mathf.Clamp (xPos, -13.0f, 13.0f), transform.position.y, 0f);
 		transform.position = playerPos;
 	}
-
-
 }
