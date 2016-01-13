@@ -2,26 +2,22 @@
 using System.Collections;
 
 public class BallController: MonoBehaviour {
-
-	public float ballInitialVelocity = 600f;
+	
 	public GameObject bottomWall;
+	public Rigidbody rb;
 
-	private Rigidbody rb;
-	private bool ballInPlay = false;
+	public bool ballInPlay = false;
+	public float ballInitialVelocity = 600f;
 
 	void Awake () {
 		rb = GetComponent<Rigidbody>();
 	}
 
-	void Update () 
-	{
-		if (Input.GetButtonDown("Fire1") && ballInPlay == false)
-		{
-			transform.parent = null;
-			ballInPlay = true;
-			rb.isKinematic = false;
-			rb.AddForce(new Vector3(ballInitialVelocity, ballInitialVelocity, 0));
-		}
+	public void launchBall() {
+		transform.parent = null;
+		this.ballInPlay = true;
+		this.rb.isKinematic = false;
+		this.rb.AddForce(new Vector3(ballInitialVelocity, ballInitialVelocity, 0));
 	}
 
 	void OnCollisionEnter(Collision collider){
@@ -29,7 +25,7 @@ public class BallController: MonoBehaviour {
 			Destroy (collider.gameObject);
 			GameController.instance.addScore();
 		}
-		if(collider.gameObject.Equals(bottomWall)){
+		else if(collider.gameObject.Equals(bottomWall)){
 			GameController.instance.restartGame();
 		}
 
