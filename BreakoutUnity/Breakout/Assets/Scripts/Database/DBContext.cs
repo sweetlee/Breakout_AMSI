@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.Database
 {
@@ -15,10 +16,11 @@ namespace Assets.Scripts.Database
             get
             {
                 if (_localDB == null)
-                    _localDB = new Siaqodb(@".");
+                    _localDB = new Siaqodb(Application.dataPath, 5);
 
                 return _localDB;
             }
         }
+       
     }
 }
