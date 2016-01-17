@@ -12,6 +12,9 @@ public class HighScoreListController : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
+
+        HighscoreFacade.InsertTestHighScore();
+
         FillHigscore();
 	}
 	

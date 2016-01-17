@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Database.Models;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.Database.Controllers
@@ -23,16 +22,41 @@ namespace Assets.Scripts.Database.Controllers
             return query.ToList();
         }
 
+        public static Highscore FindBest()
+        {
+            var query = (from Highscore h in DBContext.LocalDB
+                         orderby h.Score descending
+                         select h).Take(1);
+
+            return query.FirstOrDefault();
+        }
+
+        public static Highscore FindLast()
+        {
+            var query = (from Highscore h in DBContext.LocalDB
+                         orderby h.Score ascending
+                         select h).Take(1);
+
+            return query.FirstOrDefault();
+        }
+
         public static bool Insert(Highscore score)
         {
-            try
+            List<Highscore> scores = FindBest10();
+
+            if (scores.Count < 10
+                || scores[9].Score < score.Score)
             {
-                DBContext.LocalDB.StoreObject(score);
-            }
-            catch (Exception ex)
-            {
-                return false;
-                throw;
+                try
+                {
+                    DBContext.LocalDB.StoreObject(score);
+                    DeleteOverBest10();
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                    throw;
+                }
             }
             return true;
         }
@@ -41,11 +65,28 @@ namespace Assets.Scripts.Database.Controllers
         {
             return Insert(new Highscore() { Name = name, Score = score });
         }
-
+        
         public static void InsertTestHighScore()
         {
-            Highscore score = new Highscore() { Name = "Test", Score = (int)(UnityEngine.Random.value * 1000) };
+            Highscore score = new Highscore() { Name = "Test" + ((int)(UnityEngine.Random.value * 100)).ToString(), Score = (int)(UnityEngine.Random.value * 1000) };
+            Debug.LogFormat("Test Score: {0}", score.ToString());
             HighscoreFacade.Insert(score);
+        }
+
+        public static void Delete(Highscore highscore)
+        {
+            DBContext.LocalDB.Delete(highscore);
+        }
+
+        public static void DeleteOverBest10()
+        {
+            List<Highscore> overflow = FindAll().Except(FindBest10()).ToList();
+            Debug.Log(overflow);
+
+            foreach(Highscore h in overflow)
+            {
+                Delete(h);
+            }
         }
 
         public static string ToStringAll()
