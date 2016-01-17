@@ -14,6 +14,15 @@ namespace Assets.Scripts.Database.Controllers
             return DBContext.LocalDB.LoadAll<Highscore>().ToList();
         }
 
+        public static List<Highscore> FindBest10()
+        {
+            var query = (from Highscore h in DBContext.LocalDB
+                        orderby h.Score descending
+                        select h).Take(10);
+
+            return query.ToList();
+        }
+
         public static bool Insert(Highscore score)
         {
             try
@@ -33,16 +42,22 @@ namespace Assets.Scripts.Database.Controllers
             return Insert(new Highscore() { Name = name, Score = score });
         }
 
+        public static void InsertTestHighScore()
+        {
+            Highscore score = new Highscore() { Name = "Test", Score = (int)(UnityEngine.Random.value * 1000) };
+            HighscoreFacade.Insert(score);
+        }
+
         public static string ToStringAll()
         {
             string highscore = string.Empty;
             List<Highscore> scores = HighscoreFacade.FindAll();
-            Debug.Log(scores.Count);
+            //Debug.Log(scores.Count);
             scores.Sort();
 
             for(int i = 0; i < scores.Count; ++i)
             {
-                Debug.LogFormat("{0},{1}", "i=", i);
+                //Debug.LogFormat("{0},{1}", "i=", i);
                 highscore += String.Format("{0}.\t{1}\n", i+1, scores[i].ToString());
             }
 

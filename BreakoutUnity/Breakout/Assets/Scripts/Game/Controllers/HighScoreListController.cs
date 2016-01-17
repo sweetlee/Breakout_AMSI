@@ -3,19 +3,16 @@ using System.Collections;
 using UnityEngine.UI;
 using Assets.Scripts.Database.Models;
 using Assets.Scripts.Database.Controllers;
+using System.Collections.Generic;
 
 public class HighScoreListController : MonoBehaviour
 {
-    public Text HighScoreList;
+    public VerticalLayoutGroup Names;
+    public VerticalLayoutGroup Scores;
 
 	// Use this for initialization
 	void Start () {
-
-        //TestHighScore();
-
-        //Highscore test = HighscoreFacade.FindAll()[0];
-        //Debug.Log(test.ToString());
-        HighScoreList.text = HighscoreFacade.ToStringAll();
+        FillHigscore();
 	}
 	
 	// Update is called once per frame
@@ -23,9 +20,19 @@ public class HighScoreListController : MonoBehaviour
 	
 	}
 
-    private void TestHighScore()
+    private void FillHigscore()
     {
-        Highscore score = new Highscore() { Name = "Test", Score = (int)(Random.value * 1000) };
-        HighscoreFacade.Insert(score);
+        List<Highscore> highscores = HighscoreFacade.FindBest10();
+
+        Debug.Log(HighscoreFacade.ToStringAll());
+
+        int count = highscores.Count <= 10 ? highscores.Count : 10;
+
+        for (int i = 0; i < count ; i++)
+        {
+            //Debug.Log("i=" + i);
+            Names.GetComponentsInChildren<Text>()[i].text = highscores[i].Name;
+            Scores.GetComponentsInChildren<Text>()[i].text = highscores[i].Score.ToString();
+        }
     }
 }
