@@ -69,7 +69,7 @@ namespace Assets.Scripts.Database.Controllers
         public static void InsertTestHighScore()
         {
             Highscore score = new Highscore() { Name = "Test" + ((int)(UnityEngine.Random.value * 100)).ToString(), Score = (int)(UnityEngine.Random.value * 1000) };
-            Debug.LogFormat("Test Score: {0}", score.ToString());
+            //Debug.LogFormat("Test Score: {0}", score.ToString());
             HighscoreFacade.Insert(score);
         }
 
@@ -81,7 +81,7 @@ namespace Assets.Scripts.Database.Controllers
         public static void DeleteOverBest10()
         {
             List<Highscore> overflow = FindAll().Except(FindBest10()).ToList();
-            Debug.Log(overflow);
+            //Debug.Log(overflow);
 
             foreach(Highscore h in overflow)
             {

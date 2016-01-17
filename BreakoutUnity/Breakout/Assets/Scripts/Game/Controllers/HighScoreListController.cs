@@ -13,7 +13,7 @@ public class HighScoreListController : MonoBehaviour
 	// Use this for initialization
 	void Start () {
 
-        HighscoreFacade.InsertTestHighScore();
+        //HighscoreFacade.InsertTestHighScore();
 
         FillHigscore();
 	}
@@ -27,7 +27,7 @@ public class HighScoreListController : MonoBehaviour
     {
         List<Highscore> highscores = HighscoreFacade.FindBest10();
 
-        Debug.Log(HighscoreFacade.ToStringAll());
+        //Debug.Log(HighscoreFacade.ToStringAll());
 
         int count = highscores.Count <= 10 ? highscores.Count : 10;
 
