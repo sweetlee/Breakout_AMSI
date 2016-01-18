@@ -17,12 +17,11 @@ public class Menu_script : MonoBehaviour {
 	public AudioClip Button_ok;
 	public AudioClip Button_no;
 
-	void start()
-	{
-		Exit_screen = Exit_screen.GetComponent<Canvas>();
-		Options_screen = Options_screen.GetComponent<Canvas>();
-		Credits_screen = Credits_screen.GetComponent<Canvas>();
+	public GameObject audioSource;
+	bool soundToggle = true;
 
+	void Start()
+	{
 		Exit_screen.enabled = false;
 		Options_screen.enabled = false;
 		Credits_screen.enabled = false;
@@ -32,19 +31,18 @@ public class Menu_script : MonoBehaviour {
 		creditsText = creditsText.GetComponent<Button>();
 		exitText = exitText.GetComponent<Button>();
 	}
-
-	public void Music_volume_Control(float Music_volume_Control)
+		
+	public void Sound_volume_Control()
 	{
-
-		audio.volume = Music_volume_Control;
-
-	}
-
-	public void Sound_volume_Control(float Sound_volume_Control)
-	{
-
-		audio.volume = Sound_volume_Control;
-
+		soundToggle = !soundToggle;
+		if(soundToggle)
+		{
+			audio.enabled = true;
+		}
+		else
+		{
+			audio.enabled = false;
+		}
 	}
 
 	public void ExitPress()
