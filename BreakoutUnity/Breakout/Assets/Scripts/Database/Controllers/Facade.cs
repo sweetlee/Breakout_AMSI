@@ -13,17 +13,17 @@ namespace Assets.Scripts.Database.Controllers
             return DBContext.LocalDB.LoadAll<T>().ToList();
         }
 
-        public static T Find(T item)
-        {
-            IEnumerable<T> query = from T t in DBContext.LocalDB
-                                   where t.Equals(item)
-                                   select t;
+        //public static T Find(T item)
+        //{
+        //    IEnumerable<T> query = from T t in DBContext.LocalDB
+        //                           where t.Equals(item)
+        //                           select t;
 
-            T result = query.FirstOrDefault();
+        //    T result = query.FirstOrDefault();
 
-            return result;
-        }
-
+        //    return result;
+        //}
+        
         internal static bool Save(T item)
         {
             try
