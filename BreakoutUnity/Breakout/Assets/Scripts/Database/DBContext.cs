@@ -16,7 +16,7 @@ namespace Assets.Scripts.Database
             get
             {
                 if (_localDB == null)
-                    _localDB = new Siaqodb(Application.dataPath, 5);
+                    _localDB = new Siaqodb(Application.dataPath, 1048576);
 
                 return _localDB;
             }
