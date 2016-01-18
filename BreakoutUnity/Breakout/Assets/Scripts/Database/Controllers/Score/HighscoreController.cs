@@ -17,6 +17,9 @@ namespace Assets.Scripts.Database.Models
 
         public bool Equals(Highscore other)
         {
+            if (other == null)
+                return false;
+
             return Score.Equals(other.Score) && Name.Equals(other.Name);
         }
 
