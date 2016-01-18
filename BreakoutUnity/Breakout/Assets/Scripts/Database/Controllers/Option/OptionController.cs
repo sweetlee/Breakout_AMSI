@@ -15,6 +15,9 @@ namespace Assets.Scripts.Database.Models
 
         public bool Equals(Option other)
         {
+            if (other == null)
+                return false;
+
             return Name.Equals(other.Name);
         }
 

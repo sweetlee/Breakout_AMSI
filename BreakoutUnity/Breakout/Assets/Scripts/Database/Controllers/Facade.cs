@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.Database.Controllers
 {
@@ -42,7 +43,7 @@ namespace Assets.Scripts.Database.Controllers
             DBContext.LocalDB.Delete(item);
         }
 
-        public static string ToStringAll()
+        public static void ToStringAll()
         {
             string result = string.Empty;
             List<T> data = FindAll();
@@ -55,7 +56,7 @@ namespace Assets.Scripts.Database.Controllers
                 result += String.Format("{0}.\t{1}\n", i + 1, data[i].ToString());
             }
 
-            return result;
+            Debug.Log(result.Equals(String.Empty) ? "Brak danych" : result);
         }
     }
 }
