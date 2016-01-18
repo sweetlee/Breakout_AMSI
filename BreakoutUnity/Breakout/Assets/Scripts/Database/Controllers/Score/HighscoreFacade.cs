@@ -10,7 +10,10 @@ namespace Assets.Scripts.Database.Controllers
     {
         public static List<Highscore> FindAll()
         {
-            return DBContext.LocalDB.LoadAll<Highscore>().ToList();
+            List<Highscore> list = Facade<Highscore>.FindAll();
+            list.Sort();
+
+            return list;
         }
 
         public static List<Highscore> FindBest10()
@@ -40,42 +43,37 @@ namespace Assets.Scripts.Database.Controllers
             return query.FirstOrDefault();
         }
 
-        public static bool Insert(Highscore score)
+        public static bool Save(Highscore score)
         {
             List<Highscore> scores = FindBest10();
 
             if (scores.Count < 10
                 || scores[9].Score < score.Score)
             {
-                try
-                {
-                    DBContext.LocalDB.StoreObject(score);
-                    DeleteOverBest10();
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                    throw;
-                }
+                bool result = Facade<Highscore>.Save(score);
+                //Debug.Log(result.ToString());
+                if (result) DeleteOverBest10();
+
+                return result;
             }
             return true;
         }
 
-        public static bool Insert(string name, int score)
+        public static bool Save(string name, int score)
         {
-            return Insert(new Highscore() { Name = name, Score = score });
+            return Save(new Highscore() { Name = name, Score = score });
         }
         
         public static void InsertTestHighScore()
         {
             Highscore score = new Highscore() { Name = "Test" + ((int)(UnityEngine.Random.value * 100)).ToString(), Score = (int)(UnityEngine.Random.value * 1000) };
-            //Debug.LogFormat("Test Score: {0}", score.ToString());
-            HighscoreFacade.Insert(score);
+            Debug.LogFormat("Test Score: {0}", score.ToString());
+            HighscoreFacade.Save(score);
         }
 
         public static void Delete(Highscore highscore)
         {
-            DBContext.LocalDB.Delete(highscore);
+            Facade<Highscore>.Delete(highscore);
         }
 
         public static void DeleteOverBest10()
@@ -87,22 +85,6 @@ namespace Assets.Scripts.Database.Controllers
             {
                 Delete(h);
             }
-        }
-
-        public static string ToStringAll()
-        {
-            string highscore = string.Empty;
-            List<Highscore> scores = HighscoreFacade.FindAll();
-            //Debug.Log(scores.Count);
-            scores.Sort();
-
-            for(int i = 0; i < scores.Count; ++i)
-            {
-                //Debug.LogFormat("{0},{1}", "i=", i);
-                highscore += String.Format("{0}.\t{1}\n", i+1, scores[i].ToString());
-            }
-
-            return highscore;
         }
     }
 }

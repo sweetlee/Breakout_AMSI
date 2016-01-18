@@ -27,13 +27,12 @@ public class HighScoreListController : MonoBehaviour
     {
         List<Highscore> highscores = HighscoreFacade.FindBest10();
 
-        //Debug.Log(HighscoreFacade.ToStringAll());
+        //Debug.Log(Facade<Highscore>.ToStringAll());
 
         int count = highscores.Count <= 10 ? highscores.Count : 10;
 
         for (int i = 0; i < count ; i++)
         {
-            //Debug.Log("i=" + i);
             Names.GetComponentsInChildren<Text>()[i].text = highscores[i].Name;
             Scores.GetComponentsInChildren<Text>()[i].text = highscores[i].Score.ToString();
         }
