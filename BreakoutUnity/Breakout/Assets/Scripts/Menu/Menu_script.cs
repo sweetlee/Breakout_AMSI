@@ -7,9 +7,11 @@ public class Menu_script : MonoBehaviour {
 	public Canvas Exit_screen;
 	public Canvas Credits_screen;
 	public Canvas Options_screen;
+	public Canvas Highscores_screen;
 
 	public Button startText;
 	public Button optionsText;
+	public Button highscoresText;
 	public Button creditsText;
 	public Button exitText;
 
@@ -17,7 +19,7 @@ public class Menu_script : MonoBehaviour {
 	public AudioClip Button_ok;
 	public AudioClip Button_no;
 
-	public GameObject audioSource;
+	//public GameObject audioSource;
 	bool soundToggle = true;
 
 	void Start()
@@ -25,11 +27,7 @@ public class Menu_script : MonoBehaviour {
 		Exit_screen.enabled = false;
 		Options_screen.enabled = false;
 		Credits_screen.enabled = false;
-
-		startText = startText.GetComponent<Button>();
-		optionsText = optionsText.GetComponent<Button>();
-		creditsText = creditsText.GetComponent<Button>();
-		exitText = exitText.GetComponent<Button>();
+		Highscores_screen.enabled = false;
 	}
 		
 	public void Sound_volume_Control()
@@ -55,6 +53,7 @@ public class Menu_script : MonoBehaviour {
 		optionsText.enabled = false;
 		creditsText.enabled = false;
 		exitText.enabled = false;
+		highscoresText.enabled = false;
 	}
 
 	public void NoPress()
@@ -66,6 +65,7 @@ public class Menu_script : MonoBehaviour {
 		optionsText.enabled = true;
 		creditsText.enabled = true;
 		exitText.enabled = true;
+		highscoresText.enabled = true;
 	}
 
 	public void OptionsPress()
@@ -77,6 +77,7 @@ public class Menu_script : MonoBehaviour {
 		optionsText.enabled = false;
 		creditsText.enabled = false;
 		exitText.enabled = false;
+		highscoresText.enabled = false;
 	}
 
 	public void Ok_options_press()
@@ -88,6 +89,33 @@ public class Menu_script : MonoBehaviour {
 		optionsText.enabled = true;
 		creditsText.enabled = true;
 		exitText.enabled = true;
+		highscoresText.enabled=  true;
+	}
+
+	public void HighscoresPress()
+	{
+		audio.PlayOneShot(Button_ok);
+
+		Highscores_screen.enabled = true;
+
+		startText.enabled = false;
+		optionsText.enabled = false;
+		creditsText.enabled = false;
+		exitText.enabled = false;
+		highscoresText.enabled = false;
+	}
+
+	public void HighscoresPress_OK()
+	{
+		audio.PlayOneShot (Button_no);
+
+		Highscores_screen.enabled = false;
+
+		startText.enabled = true;
+		optionsText.enabled = true;
+		creditsText.enabled = true;
+		exitText.enabled = true;
+		highscoresText.enabled = true;
 	}
 
 	public void CreditsPress()
@@ -99,6 +127,7 @@ public class Menu_script : MonoBehaviour {
 		optionsText.enabled = false;
 		creditsText.enabled = false;
 		exitText.enabled = false;
+		highscoresText.enabled = false;
 	}
 
 	public void Ok_credits_press()
@@ -110,6 +139,7 @@ public class Menu_script : MonoBehaviour {
 		optionsText.enabled = true;
 		creditsText.enabled = true;
 		exitText.enabled = true;
+		highscoresText.enabled = true;
 	}
 		
 	public void LoadScene()
