@@ -8,6 +8,12 @@ public class GameController : MonoBehaviour {
 
 	public BallController ballController;
 	public PaddleController paddleController;
+	public GameObject menuPanel;
+	public GameObject dimmer;
+
+	public bool gamePaused = false;
+	public bool menuShown = false;
+
 
 	public int score;
 	public Text scoreText;
@@ -31,8 +37,23 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	public void tooglePauseGame(){
+		this.gamePaused = !this.gamePaused;
+		this.ballController.rb.isKinematic = this.gamePaused;
+		if(!this.ballController.rb.isKinematic){
+			this.ballController.launchBall();
+		}
+	}
+
 	public void settingsTapped(){
-		Debug.Log("SettingsTapped!!");
+		this.menuShown = !this.menuShown;
+		this.dimmer.SetActive(this.menuShown);
+		this.tooglePauseGame();
+		if(this.menuShown){
+			iTween.MoveTo(menuPanel, new Vector3(0, 2,-10), 0.5f);
+		} else {
+			iTween.MoveTo(menuPanel, new Vector3(0, 17.54f,-10), 0.5f);
+		}
 	}
 
 	public void addScore(){
