@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
+using Assets.Scripts.Database.Models;
+using Assets.Scripts.Database.Controllers;
 
 public class Menu_script : MonoBehaviour {
 
@@ -21,6 +24,7 @@ public class Menu_script : MonoBehaviour {
 
 	//public GameObject audioSource;
 	bool soundToggle = true;
+    private int controlId = 0;
 
 	void Start()
 	{
@@ -28,9 +32,45 @@ public class Menu_script : MonoBehaviour {
 		Options_screen.enabled = false;
 		Credits_screen.enabled = false;
 		Highscores_screen.enabled = false;
+
+        LoadOptions();
 	}
-		
-	public void Sound_volume_Control()
+
+    private void LoadOptions()
+    {
+        Option sound = OptionFacade.Find(OptionName.Sound);
+        bool soundOn = (OnOffOption)sound.Value == OnOffOption.On ? true : false;
+
+        Option control = OptionFacade.Find(OptionName.Controls);
+        ControlOption controlId = (ControlOption)control.Value;
+
+        audio.enabled = soundOn;
+
+        Toggle[] optionToggles = Options_screen.GetComponentsInChildren<Toggle>();
+        foreach(Toggle t in optionToggles)
+        {
+            switch(t.name)
+            {
+                case OptionToggle.Sound:
+                    t.isOn = soundOn;
+                    break;
+                case OptionToggle.Arrow:
+                    t.isOn = controlId == ControlOption.Arrows;
+                    break;
+                case OptionToggle.Paddle:
+                    t.isOn = controlId == ControlOption.Paddle;
+                    break;
+                case OptionToggle.Gyroscope:
+                    t.isOn = controlId == ControlOption.Gyroscope;
+                    break;
+                default:
+                    Debug.Log(String.Format("Not set: {0}", t.name));
+                    break;
+            }
+        }
+    }
+
+    public void Sound_volume_Control()
 	{
 		soundToggle = !soundToggle;
 		if(soundToggle)
@@ -43,7 +83,12 @@ public class Menu_script : MonoBehaviour {
 		}
 	}
 
-	public void ExitPress()
+    public void ControlsToggleControl(int _controlId)
+    {
+        controlId = _controlId;
+    }
+
+    public void ExitPress()
 	{
 
 		audio.PlayOneShot(Button_ok);
@@ -90,9 +135,23 @@ public class Menu_script : MonoBehaviour {
 		creditsText.enabled = true;
 		exitText.enabled = true;
 		highscoresText.enabled=  true;
+
+        SaveOptions();
 	}
 
-	public void HighscoresPress()
+    private void SaveOptions()
+    {
+        Option sound = OptionFacade.Find(OptionName.Sound);
+        sound.Value = audio.enabled ? OnOffOption.On : OnOffOption.Off;
+
+        Option control = OptionFacade.Find(OptionName.Controls);
+        control.Value = (ControlOption)controlId;
+
+        OptionFacade.Save(sound);
+        OptionFacade.Save(control);
+    }
+
+    public void HighscoresPress()
 	{
 		audio.PlayOneShot(Button_ok);
 

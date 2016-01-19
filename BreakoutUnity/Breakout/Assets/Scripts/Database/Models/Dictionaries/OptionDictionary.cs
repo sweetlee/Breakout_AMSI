@@ -13,12 +13,12 @@ namespace Assets.Scripts.Database.Models
         public const string UnlockedLevel = "UnlockedLevel";
     }
 
-    public static class OptionDefault
+    public static class OptionToggle
     {
-        public static Option Controls = new Option() { Name = OptionName.Controls, Value = ControlOption.Arrows };
-        public static Option Music = new Option() { Name = OptionName.Music, Value = OnOffOption.On };
-        public static Option Sound = new Option() { Name = OptionName.Sound, Value = OnOffOption.On };
-        public static Option UnlockedLevel = new Option() { Name = OptionName.Controls, Value = UnlockedLevelOption.Level01 };
+        public const string Sound = "SoundToggle";
+        public const string Arrow = "ArrowToggle";
+        public const string Paddle = "PaddleToggle";
+        public const string Gyroscope = "GyroscopeToggle";
     }
 
     public enum ControlOption
