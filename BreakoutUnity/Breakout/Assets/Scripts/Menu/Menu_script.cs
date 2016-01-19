@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Assets.Scripts.Database.Controllers;
+using Assets.Scripts.Database.Models;
 
 public class Menu_script : MonoBehaviour {
 
@@ -30,11 +32,14 @@ public class Menu_script : MonoBehaviour {
 		optionsText = optionsText.GetComponent<Button>();
 		creditsText = creditsText.GetComponent<Button>();
 		exitText = exitText.GetComponent<Button>();
+
+        LoadOptions();
 	}
 		
 	public void Sound_volume_Control()
 	{
 		soundToggle = !soundToggle;
+
 		if(soundToggle)
 		{
 			audio.enabled = true;
@@ -88,7 +93,11 @@ public class Menu_script : MonoBehaviour {
 		optionsText.enabled = true;
 		creditsText.enabled = true;
 		exitText.enabled = true;
-	}
+
+        Option sound = OptionFacade.Find(OptionName.Sound);
+        sound.Value = audio.enabled ? OnOffOption.On : OnOffOption.Off;
+        OptionFacade.Save(sound);
+    }
 
 	public void CreditsPress()
 	{
@@ -125,4 +134,14 @@ public class Menu_script : MonoBehaviour {
 
 		Application.Quit();
 	}
+
+    private void LoadOptions()
+    {
+        Facade<Option>.ToStringAll();
+        Option sound = OptionFacade.Find(OptionName.Sound);
+        Debug.Log(sound.ToString());
+
+        audio.enabled =
+            (OnOffOption)sound.Value == OnOffOption.On ? true : false;
+    }
 }

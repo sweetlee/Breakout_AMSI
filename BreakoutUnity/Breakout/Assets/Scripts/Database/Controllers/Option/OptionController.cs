@@ -7,6 +7,8 @@ namespace Assets.Scripts.Database.Models
 {
     public partial class Option : IComparable, IEquatable<Option>
     {
+        //private Option() { }
+
         public int CompareTo(object obj)
         {
             Option c = (Option)obj;
@@ -33,16 +35,16 @@ namespace Assets.Scripts.Database.Models
             switch(name)
             {
                 case OptionName.Controls:
-                    result = OptionDefault.Controls;
+                    result = new Option() { Name = OptionName.Controls, Value = ControlOption.Arrows };
                     break;
                 case OptionName.Music:
-                    result = OptionDefault.Music;
+                    result = new Option() { Name = OptionName.Music, Value = OnOffOption.On };
                     break;
                 case OptionName.Sound:
-                    result = OptionDefault.Sound;
+                    result = new Option() { Name = OptionName.Sound, Value = OnOffOption.On };
                     break;
                 case OptionName.UnlockedLevel:
-                    result = OptionDefault.UnlockedLevel;
+                    result = new Option() { Name = OptionName.Controls, Value = UnlockedLevelOption.Level01 };
                     break;
                 default:
                     result = null;
