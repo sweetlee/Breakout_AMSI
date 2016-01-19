@@ -41,8 +41,10 @@ namespace Assets.Scripts.Database.Controllers
         
         public static bool Save(string name, Enum value)
         {
-            //if(value is ControlOption)
-            return Save(new Option() { Name = name, Value = value });
+            Option o = Find(name);
+            o.Value = value;
+
+            return Save(o);
         }
 
         public static void Delete(Option option)
