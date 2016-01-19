@@ -7,7 +7,7 @@ public class PaddleController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+
 	}
 
 	// Update is called once per frame
@@ -23,6 +23,4 @@ public class PaddleController : MonoBehaviour {
 		Debug.Log("Paddle x: " +playerPos);
 		transform.position = playerPos;
 	}
-
-
 }
