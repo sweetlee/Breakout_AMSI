@@ -4049,7 +4049,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 7
+  m_DynamicPixelsPerUnit: 10
 --- !u!1 &1808365366
 GameObject:
   m_ObjectHideFlags: 0
