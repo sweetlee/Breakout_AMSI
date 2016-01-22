@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
 	public static GameController instance;
 
+	public List<GameObject> bricksLeft;
+
 	public BallController ballController;
 	public PaddleController paddleController;
+
+	public GameObject brickParent;
 	public GameObject menuPanel;
 	public GameObject dimmer;
 
@@ -22,6 +26,8 @@ public class GameController : MonoBehaviour {
 	void Start () {
 		instance = this;
 		scoreText.text = score.ToString ();
+		this.setupBricks();
+
 	}
 
 	public void Update () {
@@ -37,10 +43,20 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	void setupBricks(){
+		this.bricksLeft = new List<GameObject>();
+		for(int i = 0; i<brickParent.transform.childCount; i++){
+			GameObject brick = brickParent.transform.GetChild(i).gameObject;
+			if(brick.GetComponent<BrickModel>()){
+				this.bricksLeft.Add(brick);
+			}
+		}
+	}
+
 	public void tooglePauseGame(){
 		this.gamePaused = !this.gamePaused;
 		this.ballController.rb.isKinematic = this.gamePaused;
-		if(!this.ballController.rb.isKinematic){
+		if(!this.ballController.rb.isKinematic && this.ballController.ballInPlay){
 			this.ballController.launchBall();
 		}
 	}
@@ -56,9 +72,30 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	public void brickHit(GameObject brick){
+		BrickModel brickModel = brick.GetComponent<BrickModel>();
+		brickModel.brickHitPoints--;
+		if(brickModel.brickHitPoints == 0){
+			this.bricksLeft.Remove(brick);
+			Destroy(brick);
+			this.addScore();
+
+			if(this.playerWon()){
+				this.tooglePauseGame();
+				this.dimmer.SetActive(true);
+			}
+		} else {
+			brickModel.updateColor();
+		}
+	}
+
 	public void addScore(){
 		score ++;
 		scoreText.text = score.ToString ();
+	}
+
+	public bool playerWon(){
+		return (this.bricksLeft.Count == 0);
 	}
 
 	public void restartGame(){

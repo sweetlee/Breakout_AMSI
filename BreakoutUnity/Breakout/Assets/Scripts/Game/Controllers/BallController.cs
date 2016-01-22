@@ -1,17 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class BallController: MonoBehaviour {
 	
 	public GameObject bottomWall;
 	public Rigidbody rb;
 
+
 	public bool ballInPlay = false;
 	public float ballInitialVelocity = 600f;
-
-	void Awake () {
-		rb = GetComponent<Rigidbody>();
-	}
 
 	public void launchBall() {
 		transform.parent = null;
@@ -22,8 +19,7 @@ public class BallController: MonoBehaviour {
 
 	void OnCollisionEnter(Collision collider){
 		if (collider.gameObject.GetComponent<BrickModel>()) {
-			Destroy (collider.gameObject);
-			GameController.instance.addScore();
+			GameController.instance.brickHit(collider.gameObject);
 		}
 		else if(collider.gameObject.Equals(bottomWall)){
 			GameController.instance.restartGame();
