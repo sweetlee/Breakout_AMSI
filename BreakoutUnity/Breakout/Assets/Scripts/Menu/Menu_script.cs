@@ -11,6 +11,7 @@ public class Menu_script : MonoBehaviour {
 	public Canvas Credits_screen;
 	public Canvas Options_screen;
 	public Canvas Highscores_screen;
+	public Canvas Level_selection_screen;
 
 	public Button startText;
 	public Button optionsText;
@@ -22,6 +23,8 @@ public class Menu_script : MonoBehaviour {
 	public AudioClip Button_ok;
 	public AudioClip Button_no;
 
+	public int level_number;
+
 	//public GameObject audioSource;
 	bool soundToggle = true;
     private int controlId = 0;
@@ -32,6 +35,7 @@ public class Menu_script : MonoBehaviour {
 		Options_screen.enabled = false;
 		Credits_screen.enabled = false;
 		Highscores_screen.enabled = false;
+		Level_selection_screen.enabled = false;
 
         LoadOptions();
 	}
@@ -200,14 +204,38 @@ public class Menu_script : MonoBehaviour {
 		exitText.enabled = true;
 		highscoresText.enabled = true;
 	}
-		
-	public void LoadScene()
+
+	public void New_game_press()
 	{
 		audio.PlayOneShot(Button_ok);
 
-		Application.LoadLevel(0);
+		Level_selection_screen.enabled = true;
+		startText.enabled = false;
+		optionsText.enabled = false;
+		creditsText.enabled = false;
+		exitText.enabled = false;
+		highscoresText.enabled = false;
 	}
 
+	public void New_game_back_press()
+	{
+		audio.PlayOneShot(Button_no);
+
+		Level_selection_screen.enabled = false;
+		startText.enabled = true;
+		optionsText.enabled = true;
+		creditsText.enabled = true;
+		exitText.enabled = true;
+		highscoresText.enabled = true;
+	}
+		
+	public void Load_level(int level_number)
+	{
+		audio.PlayOneShot(Button_ok);
+
+		Application.LoadLevel(level_number);
+	}
+		
 	public void ExitGame()
 	{
 		audio.PlayOneShot(Button_no);
