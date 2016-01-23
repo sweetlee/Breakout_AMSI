@@ -1,35 +1,27 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class BallController: MonoBehaviour {
-
-	public float ballInitialVelocity = 600f;
+	
 	public GameObject bottomWall;
+	public Rigidbody rb;
 
-	private Rigidbody rb;
-	private bool ballInPlay = false;
 
-	void Awake () {
-		rb = GetComponent<Rigidbody>();
-	}
+	public bool ballInPlay = false;
+	public float ballInitialVelocity = 600f;
 
-	void Update () 
-	{
-		if (Input.GetButtonDown("Fire1") && ballInPlay == false)
-		{
-			transform.parent = null;
-			ballInPlay = true;
-			rb.isKinematic = false;
-			rb.AddForce(new Vector3(ballInitialVelocity, ballInitialVelocity, 0));
-		}
+	public void launchBall() {
+		transform.parent = null;
+		this.ballInPlay = true;
+		this.rb.isKinematic = false;
+		this.rb.AddForce(new Vector3(ballInitialVelocity, ballInitialVelocity, 0));
 	}
 
 	void OnCollisionEnter(Collision collider){
 		if (collider.gameObject.GetComponent<BrickModel>()) {
-			Destroy (collider.gameObject);
-			GameController.instance.addScore();
+			GameController.instance.brickHit(collider.gameObject);
 		}
-		if(collider.gameObject.Equals(bottomWall)){
+		else if(collider.gameObject.Equals(bottomWall)){
 			GameController.instance.restartGame();
 		}
 
