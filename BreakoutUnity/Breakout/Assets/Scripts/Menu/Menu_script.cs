@@ -37,8 +37,6 @@ public class Menu_script : MonoBehaviour {
 		Highscores_screen.enabled = false;
 		Level_selection_screen.enabled = false;
 
-        OptionFacade.UnlockLevel(UnlockedLevelOption.Level_7);
-
         LoadOptions();
 	}
 
