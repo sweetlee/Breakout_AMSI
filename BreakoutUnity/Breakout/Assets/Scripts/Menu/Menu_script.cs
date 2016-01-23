@@ -37,6 +37,8 @@ public class Menu_script : MonoBehaviour {
 		Highscores_screen.enabled = false;
 		Level_selection_screen.enabled = false;
 
+        OptionFacade.UnlockLevel(UnlockedLevelOption.Level_7);
+
         LoadOptions();
 	}
 
@@ -72,6 +74,66 @@ public class Menu_script : MonoBehaviour {
                     break;
             }
         }
+        
+        Option unlockedLevel = OptionFacade.Find(OptionName.UnlockedLevel);
+
+        switch ((UnlockedLevelOption)unlockedLevel.Value)
+        {
+            case UnlockedLevelOption.Level_16:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_16.ToString()));
+                goto case UnlockedLevelOption.Level_15;
+            case UnlockedLevelOption.Level_15:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_15.ToString()));
+                goto case UnlockedLevelOption.Level_14;
+            case UnlockedLevelOption.Level_14:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_14.ToString()));
+                goto case UnlockedLevelOption.Level_13;
+            case UnlockedLevelOption.Level_13:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_13.ToString()));
+                goto case UnlockedLevelOption.Level_12;
+            case UnlockedLevelOption.Level_12:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_12.ToString()));
+                goto case UnlockedLevelOption.Level_11;
+            case UnlockedLevelOption.Level_11:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_11.ToString()));
+                goto case UnlockedLevelOption.Level_10;
+            case UnlockedLevelOption.Level_10:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_10.ToString()));
+                goto case UnlockedLevelOption.Level_9;
+            case UnlockedLevelOption.Level_9:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_9.ToString()));
+                goto case UnlockedLevelOption.Level_8;
+            case UnlockedLevelOption.Level_8:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_8.ToString()));
+                goto case UnlockedLevelOption.Level_7;
+            case UnlockedLevelOption.Level_7:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_7.ToString()));
+                goto case UnlockedLevelOption.Level_6;
+            case UnlockedLevelOption.Level_6:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_6.ToString()));
+                goto case UnlockedLevelOption.Level_5;
+            case UnlockedLevelOption.Level_5:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_5.ToString()));
+                goto case UnlockedLevelOption.Level_4;
+            case UnlockedLevelOption.Level_4:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_4.ToString()));
+                goto case UnlockedLevelOption.Level_3;
+            case UnlockedLevelOption.Level_3:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_3.ToString()));
+                goto case UnlockedLevelOption.Level_2;
+            case UnlockedLevelOption.Level_2:
+                UnlockLevel(Level_selection_screen.transform.FindChild(UnlockedLevelOption.Level_2.ToString()));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void UnlockLevel(Transform level)
+    {
+        Debug.Log(level.name);
+        level.GetComponent<Button>().interactable = true;
+        level.FindChild("Image").GetComponent<Image>().enabled = false;
     }
 
     public void Sound_volume_Control()

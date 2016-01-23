@@ -51,5 +51,13 @@ namespace Assets.Scripts.Database.Controllers
         {
             Facade<Option>.Delete(option);
         }
+
+        public static void UnlockLevel(UnlockedLevelOption unlockedLevel)
+        {
+            Option oUnlockedLevel = OptionFacade.Find(OptionName.UnlockedLevel);
+            oUnlockedLevel.Value = unlockedLevel;
+
+            OptionFacade.Save(oUnlockedLevel);
+        }
     }
 }
