@@ -19,7 +19,9 @@ public class PaddleController : MonoBehaviour {
 			touchWorld = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 37.3f));
 			Debug.Log("Touch x: " + touchWorld.x);
 		}
-		Vector3 playerPos = new Vector3 (Mathf.Clamp (xPos, -12.5f, 12.5f), transform.position.y, 0f);
+
+		xPos = ((int)touchWorld.x == (int)this.gameObject.transform.position.x)? xPos : touchWorld.x;
+		Vector3 playerPos = new Vector3 (Mathf.Clamp (xPos, -14.5f, 14.5f), transform.position.y, 0f);
 		Debug.Log("Paddle x: " +playerPos);
 		transform.position = playerPos;
 	}

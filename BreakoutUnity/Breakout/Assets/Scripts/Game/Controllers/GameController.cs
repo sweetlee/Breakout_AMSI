@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
@@ -10,12 +11,16 @@ public class GameController : MonoBehaviour {
 
 	public BallController ballController;
 	public PaddleController paddleController;
+	public AudioSource audioSource;
 
 	public GameObject brickParent;
 	public GameObject menuPanel;
 	public GameObject dimmer;
 
+	public GameObject musicCheckBox;
+
 	public bool gamePaused = false;
+	public bool musicPlaying = true;
 	public bool menuShown = false;
 
 
@@ -47,7 +52,7 @@ public class GameController : MonoBehaviour {
 		this.bricksLeft = new List<GameObject>();
 		for(int i = 0; i<brickParent.transform.childCount; i++){
 			GameObject brick = brickParent.transform.GetChild(i).gameObject;
-			if(brick.GetComponent<BrickModel>()){
+			if(brick.GetComponent<BrickModel>() && brick.activeInHierarchy){
 				this.bricksLeft.Add(brick);
 			}
 		}
@@ -59,6 +64,15 @@ public class GameController : MonoBehaviour {
 		if(!this.ballController.rb.isKinematic && this.ballController.ballInPlay){
 			this.ballController.launchBall();
 		}
+	}
+	public void toogleMusic(){
+		this.musicPlaying = !this.musicPlaying;
+		if(this.musicPlaying){
+			this.audioSource.Play();
+		}else{
+			this.audioSource.Pause();
+		}
+		this.musicCheckBox.SetActive(this.musicPlaying);
 	}
 
 	public void settingsTapped(){
@@ -100,6 +114,9 @@ public class GameController : MonoBehaviour {
 
 	public void restartGame(){
 		Application.LoadLevel (Application.loadedLevel);
+	}
+	public void backToMenu(){
+		SceneManager.LoadScene("menu");
 	}
 
 }
