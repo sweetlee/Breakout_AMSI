@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using Assets.Scripts.Database.Controllers;
+using Assets.Scripts.Database.Models;
 using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
@@ -17,6 +18,7 @@ public class GameController : MonoBehaviour {
 	public GameObject hitpointsParent;
 	public GameObject brickParent;
 	public GameObject menuPanel;
+	public GameObject gameOverPanel;
 	public GameObject dimmer;
 
 	public GameObject musicCheckBox;
@@ -24,18 +26,27 @@ public class GameController : MonoBehaviour {
 	public bool gamePaused = false;
 	public bool musicPlaying = true;
 	public bool menuShown = false;
+	public bool gameOverShown = false;
 
 	public int hitPoints;
 
 	public int score;
+
 	public Text scoreText;
+	public Text userName;
+
+	public List<Option> playerOption;
 
 	// Use this for initialization
 	void Start () {
 		instance = this;
+		this.playerOption = new List<Option> ();
+		playerOption = OptionFacade.FindAll ();
+
 		scoreText.text = score.ToString ();
 		this.setupBricks();
 		this.setupHitPoints();
+		this.setupOptions();
 
 	}
 
@@ -63,7 +74,36 @@ public class GameController : MonoBehaviour {
 	}
 
 	void setupHitPoints(){
-		
+		this.hitpointsLeft = new List<GameObject> ();
+		for(int i = 0; i < this.hitpointsParent.transform.childCount; i++){
+			GameObject hitPoint = this.hitpointsParent.transform.GetChild(i).gameObject;
+			if(hitPoint.activeInHierarchy){
+				this.hitpointsLeft.Add (hitPoint);
+			}
+		}
+		this.hitPoints = this.hitpointsLeft.Count;
+	}
+
+	void setupOptions(){
+		for (int i = 0; i < this.playerOption.Count; i++) {
+			Option option = this.playerOption[i];
+			if(option.Name == OptionName.Sound){
+				Debug.Log("Sound: " + option.Value);
+				if((OnOffOption)option.Value == OnOffOption.Off){
+					this.toogleMusic();
+				}
+			}
+		}
+	}
+
+	void takePlayerHitpoint(){
+		for(int i = 0; i < this.hitpointsLeft.Count; i++){
+			GameObject hitpoint = this.hitpointsParent.transform.GetChild(i).gameObject;
+			if(hitpoint.activeInHierarchy){
+				hitpoint.SetActive(false);
+				return;
+			}
+		}
 	}
 
 	public void tooglePauseGame(){
@@ -91,6 +131,15 @@ public class GameController : MonoBehaviour {
 			iTween.MoveTo(menuPanel, new Vector3(0, 2,-10), 0.5f);
 		} else {
 			iTween.MoveTo(menuPanel, new Vector3(0, 17.54f,-10), 0.5f);
+		}
+	}
+	public void showGameOverDialog(){
+		this.gameOverShown = !this.gameOverShown;
+		this.dimmer.SetActive (this.gameOverShown);
+		if(this.gameOverShown){
+			iTween.MoveTo(gameOverPanel, new Vector3(0, 2,-10), 0.5f);
+		} else {
+			iTween.MoveTo(gameOverPanel, new Vector3(0, 17.54f,-10), 0.5f);
 		}
 	}
 
@@ -121,14 +170,26 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void playerShouldLoseHitPoint(){
-		
+		this.hitPoints--;
+		this.takePlayerHitpoint ();
+		if (this.hitPoints == 0) {
+			this.tooglePauseGame();
+			this.showGameOverDialog();
+		} else {
+			this.paddleController.ResetToInitialPosition ();
+			this.ballController.ballInPlay = false;
+			this.ballController.rb.isKinematic = true;
+		}
 	}
 
 	public void restartGame(){
 		Application.LoadLevel (Application.loadedLevel);
 	}
 	public void backToMenu(){
-		SceneManager.LoadScene("menu");
+		Application.LoadLevel ("menu");
+	}
+	public void saveUserAndBackToMenu(){
+
 	}
 
 }

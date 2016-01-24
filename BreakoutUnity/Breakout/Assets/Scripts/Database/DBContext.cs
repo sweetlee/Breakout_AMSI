@@ -10,13 +10,13 @@ namespace Assets.Scripts.Database
     static class DBContext
     {
         private static Siaqodb _localDB = null;
-
         public static Siaqodb LocalDB
         {
             get
             {
-                if (_localDB == null)
-                    _localDB = new Siaqodb(Application.dataPath, 1048576);
+                if (_localDB == null){
+					_localDB = new Siaqodb(Application.dataPath, 1048576);
+				}
 
                 return _localDB;
             }

@@ -22,7 +22,7 @@ public class BallController: MonoBehaviour {
 			GameController.instance.brickHit(collider.gameObject);
 		}
 		else if(collider.gameObject.Equals(bottomWall)){
-			GameController.instance.restartGame();
+			GameController.instance.playerShouldLoseHitPoint();
 		}
 
 	}
