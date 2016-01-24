@@ -42,7 +42,7 @@ namespace Assets.Scripts.Database.Models
                     result = new Option() { Name = OptionName.Sound, Value = OnOffOption.On };
                     break;
                 case OptionName.UnlockedLevel:
-                    result = new Option() { Name = OptionName.Controls, Value = UnlockedLevelOption.Level_1 };
+                    result = new Option() { Name = OptionName.UnlockedLevel, Value = UnlockedLevelOption.Level_1 };
                     break;
                 default:
                     result = null;

@@ -20,7 +20,7 @@ namespace Assets.Scripts.Database.Controllers
                                         where t.Equals(item)
                                         select t;
 
-            Option result = query.FirstOrDefault();
+            Option result = query.SingleOrDefault();
 
             return result;
         }
@@ -28,9 +28,7 @@ namespace Assets.Scripts.Database.Controllers
         public static Option Find(string optionName)
         {
             Option o = Find(Option.GetDefault(optionName));
-
-            //Debug.Log(o == null ? "Option: Null" : o.ToString());
-
+            
             return o ?? Option.GetDefault(optionName);
         }
 
@@ -50,6 +48,16 @@ namespace Assets.Scripts.Database.Controllers
         public static void Delete(Option option)
         {
             Facade<Option>.Delete(option);
+        }
+
+        public static void DeleteAll()
+        {
+            List<Option> options = FindAll();
+
+            foreach(Option o in options)
+            {
+                Delete(o);
+            }
         }
 
         public static void UnlockLevel(UnlockedLevelOption unlockedLevel)
