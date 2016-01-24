@@ -8,11 +8,13 @@ public class GameController : MonoBehaviour {
 	public static GameController instance;
 
 	public List<GameObject> bricksLeft;
+	public List<GameObject> hitpointsLeft;
 
 	public BallController ballController;
 	public PaddleController paddleController;
 	public AudioSource audioSource;
 
+	public GameObject hitpointsParent;
 	public GameObject brickParent;
 	public GameObject menuPanel;
 	public GameObject dimmer;
@@ -23,6 +25,7 @@ public class GameController : MonoBehaviour {
 	public bool musicPlaying = true;
 	public bool menuShown = false;
 
+	public int hitPoints;
 
 	public int score;
 	public Text scoreText;
@@ -32,6 +35,7 @@ public class GameController : MonoBehaviour {
 		instance = this;
 		scoreText.text = score.ToString ();
 		this.setupBricks();
+		this.setupHitPoints();
 
 	}
 
@@ -56,6 +60,10 @@ public class GameController : MonoBehaviour {
 				this.bricksLeft.Add(brick);
 			}
 		}
+	}
+
+	void setupHitPoints(){
+		
 	}
 
 	public void tooglePauseGame(){
@@ -110,6 +118,10 @@ public class GameController : MonoBehaviour {
 
 	public bool playerWon(){
 		return (this.bricksLeft.Count == 0);
+	}
+
+	public void playerShouldLoseHitPoint(){
+		
 	}
 
 	public void restartGame(){
