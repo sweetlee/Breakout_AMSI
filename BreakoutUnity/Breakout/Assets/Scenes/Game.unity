@@ -275,7 +275,7 @@ MonoBehaviour:
   hitpointsParent: {fileID: 1362777081}
   brickParent: {fileID: 1808365366}
   menuPanel: {fileID: 1792949761}
-  gameOverPanel: {fileID: 1288481898}
+  gameOverDialog: {fileID: 1288481898}
   dimmer: {fileID: 1153522736}
   musicCheckBox: {fileID: 1000123930}
   gamePaused: 0
@@ -285,7 +285,7 @@ MonoBehaviour:
   hitPoints: 0
   score: 0
   scoreText: {fileID: 555411699}
-  userName: {fileID: 0}
+  userName: {fileID: 925833383}
 --- !u!4 &94512704
 Transform:
   m_ObjectHideFlags: 0
@@ -3269,7 +3269,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 94512703}
-        m_MethodName: backToMenu
+        m_MethodName: saveUserAndBackToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3964,7 +3964,7 @@ GameObject:
   - 114: {fileID: 1288481901}
   - 114: {fileID: 1288481900}
   m_Layer: 5
-  m_Name: HiScoresDialog
+  m_Name: GameOverDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

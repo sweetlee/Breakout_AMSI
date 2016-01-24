@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour {
 	public GameObject hitpointsParent;
 	public GameObject brickParent;
 	public GameObject menuPanel;
-	public GameObject gameOverPanel;
+	public GameObject gameOverDialog;
 	public GameObject dimmer;
 
 	public GameObject musicCheckBox;
@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour {
 	public Text userName;
 
 	public List<Option> playerOption;
+
 
 	// Use this for initialization
 	void Start () {
@@ -137,9 +138,9 @@ public class GameController : MonoBehaviour {
 		this.gameOverShown = !this.gameOverShown;
 		this.dimmer.SetActive (this.gameOverShown);
 		if(this.gameOverShown){
-			iTween.MoveTo(gameOverPanel, new Vector3(0, 2,-10), 0.5f);
+			iTween.MoveTo(this.gameOverDialog, new Vector3(0, 2,-10), 0.5f);
 		} else {
-			iTween.MoveTo(gameOverPanel, new Vector3(0, 17.54f,-10), 0.5f);
+			iTween.MoveTo(this.gameOverDialog, new Vector3(0, 17.54f,-10), 0.5f);
 		}
 	}
 
@@ -153,6 +154,7 @@ public class GameController : MonoBehaviour {
 
 			if(this.playerWon()){
 				this.tooglePauseGame();
+
 				this.dimmer.SetActive(true);
 			}
 		} else {
@@ -189,7 +191,8 @@ public class GameController : MonoBehaviour {
 		Application.LoadLevel ("menu");
 	}
 	public void saveUserAndBackToMenu(){
-
+		HighscoreFacade.Save (this.userName.text, this.score);
+		this.backToMenu ();
 	}
 
 }
