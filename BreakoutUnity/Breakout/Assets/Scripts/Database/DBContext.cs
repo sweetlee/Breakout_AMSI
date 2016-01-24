@@ -1,13 +1,14 @@
 ﻿using Sqo;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.Database
 {
-    static class DBContext
+    public static class DBContext
     {
         private static Siaqodb _localDB = null;
         public static Siaqodb LocalDB
@@ -22,5 +23,13 @@ namespace Assets.Scripts.Database
             }
         }
        
+        public static void Delete()
+        {
+            string db = Application.dataPath + "data.mdb";
+            if(File.Exists(db))
+            {
+                File.Delete(db);
+            }
+        }
     }
 }

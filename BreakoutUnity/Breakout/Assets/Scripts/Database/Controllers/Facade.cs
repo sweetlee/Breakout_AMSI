@@ -43,7 +43,7 @@ namespace Assets.Scripts.Database.Controllers
             DBContext.LocalDB.Delete(item);
         }
 
-        public static void ToStringAll()
+        public static string ToStringAll()
         {
             string result = string.Empty;
             List<T> data = FindAll();
@@ -56,7 +56,8 @@ namespace Assets.Scripts.Database.Controllers
                 result += String.Format("{0}.\t{1}\n", i + 1, data[i].ToString());
             }
 
-            Debug.Log(result.Equals(String.Empty) ? "Brak danych" : result);
+            //Debug.Log(result.Equals(String.Empty) ? "Brak danych" : result);
+            return result.Equals(String.Empty) ? "Brak danych" : result;
         }
     }
 }
