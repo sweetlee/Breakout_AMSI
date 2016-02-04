@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.SceneManagement;
 using Assets.Scripts.Database.Controllers;
 using Assets.Scripts.Database.Models;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour {
 	public GameObject brickParent;
 	public GameObject menuPanel;
 	public GameObject gameOverDialog;
+	public GameObject levelCompletedDialog;
 	public GameObject dimmer;
 
 	public GameObject musicCheckBox;
@@ -26,7 +28,6 @@ public class GameController : MonoBehaviour {
 	public bool gamePaused = false;
 	public bool musicPlaying = true;
 	public bool menuShown = false;
-	public bool gameOverShown = false;
 
 	public int hitPoints;
 
@@ -61,6 +62,7 @@ public class GameController : MonoBehaviour {
 				}
 			}
 			ballController.launchBall();
+			Debug.Log(EditorSceneManager.loadedSceneCount);
 		}
 	}
 
@@ -135,13 +137,12 @@ public class GameController : MonoBehaviour {
 		}
 	}
 	public void showGameOverDialog(){
-		this.gameOverShown = !this.gameOverShown;
-		this.dimmer.SetActive (this.gameOverShown);
-		if(this.gameOverShown){
-			iTween.MoveTo(this.gameOverDialog, new Vector3(0, 2,-10), 0.5f);
-		} else {
-			iTween.MoveTo(this.gameOverDialog, new Vector3(0, 17.54f,-10), 0.5f);
-		}
+		this.dimmer.SetActive (true);
+		iTween.MoveTo(this.gameOverDialog, new Vector3(0, 2,-10), 0.5f);
+	}
+	public void showLevelCompletedDialog(){
+		this.dimmer.SetActive (true);
+		iTween.MoveTo(this.levelCompletedDialog, new Vector3(0, 2,-10), 0.5f);
 	}
 
 	public void brickHit(GameObject brick){
@@ -154,8 +155,7 @@ public class GameController : MonoBehaviour {
 
 			if(this.playerWon()){
 				this.tooglePauseGame();
-
-				this.dimmer.SetActive(true);
+				this.showLevelCompletedDialog();
 			}
 		} else {
 			brickModel.updateColor();
@@ -184,6 +184,11 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+
+	public void goToNextLevel(){
+		int sceneToLoad = EditorSceneManager.loadedSceneCount + 1;
+		EditorSceneManager.LoadScene(sceneToLoad);
+	}
 	public void restartGame(){
 		Application.LoadLevel (Application.loadedLevel);
 	}
