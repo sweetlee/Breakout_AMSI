@@ -36,7 +36,7 @@ namespace Assets.Scripts.Database.Models
 
     public enum UnlockedLevelOption
     {
-        Level_1 = 0,
+        Level_1 = 1,
         Level_2,
         Level_3,
         Level_4,

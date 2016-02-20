@@ -42,6 +42,8 @@ public class Menu_script : MonoBehaviour {
 
     private void LoadOptions()
     {
+        Debug.Log(Facade<Option>.ToStringAll());
+
         Option sound = OptionFacade.Find(OptionName.Sound);
         bool soundOn = (OnOffOption)sound.Value == OnOffOption.On ? true : false;
 
